@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\ProductVariation;
+use App\Cart\Money;
 
 class ProductTest extends TestCase
 {
@@ -42,4 +43,12 @@ class ProductTest extends TestCase
 
         $this->assertInstanceOf(ProductVariation::class, $product->variations->first());
     }
+
+    public function test_it_returns_a_money_instance_for_the_price()
+    {
+        $product = Product::factory()->create();
+
+        $this->assertInstanceOf(Money::class, $product->price);
+    }
+
 }

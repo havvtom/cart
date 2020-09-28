@@ -8,10 +8,13 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Models\Category;
 use App\Models\ProductVariation;
 use App\Scoping\Scoper;
+use App\Models\Traits\CanBeScoped;
+use App\Models\Traits\HasPrice;
+
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, HasPrice, CanBeScoped;
 
     protected $fillable = [
     	'price',
@@ -23,7 +26,7 @@ class Product extends Model
     public function getRouteKeyName()
     {
     	return 'slug';
-    }
+    }    
 
     public function categories()
     {
@@ -35,8 +38,5 @@ class Product extends Model
         return $this->hasMany(ProductVariation::class)->orderBy('order', 'asc');
     }
 
-    public function scopeWithScopes(Builder $builder, $scopes)
-    {
-        return (new Scoper(request()))->apply($builder, $scopes);
-    }
+    
 }
